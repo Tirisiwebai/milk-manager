@@ -8,16 +8,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-xl font-bold text-primary">Milk Manager</span>
+              <Link href="/" className="text-xl font-bold text-primary">
+                Milk Manager
+              </Link>
               <span className="ml-2 text-sm text-secondary">from The Way to Coffee</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-secondary hover:text-primary transition-colors">Features</a>
-              <a href="#how-it-works" className="text-secondary hover:text-primary transition-colors">How it Works</a>
-              <a href="#pricing" className="text-secondary hover:text-primary transition-colors">Pricing</a>
-              <a href="#faq" className="text-secondary hover:text-primary transition-colors">FAQ</a>
-              <Link href="#signup" className="btn-primary">
-                Get Early Access
+              <a href="#features" className="text-secondary hover:text-primary transition-colors">
+                Features
+              </a>
+              <a href="#pricing" className="text-secondary hover:text-primary transition-colors">
+                Pricing
+              </a>
+              <Link href="/signin" className="btn-primary">
+                Sign In
               </Link>
             </div>
           </div>
@@ -33,7 +37,7 @@ export default function Home() {
           Save time. Save money. Reduce waste. The simplest way to track milk for your cafe.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Link href="#signup" className="btn-primary text-lg px-8 py-4">
+          <Link href="/signin" className="btn-primary text-lg px-8 py-4">
             Get Early Access →
           </Link>
         </div>
@@ -156,7 +160,7 @@ export default function Home() {
                     <span>Manual entry</span>
                   </li>
                 </ul>
-                <Link href="#signup" className="btn-secondary w-full text-center block">
+                <Link href="/signin" className="btn-secondary w-full text-center block">
                   Sign Up Free
                 </Link>
               </div>
@@ -202,7 +206,7 @@ export default function Home() {
                 <div className="text-center">
                   <p className="text-3xl font-bold text-primary mb-2">$9/mo</p>
                   <p className="text-sm text-secondary mb-4">Launch price. First 3 months.</p>
-                  <Link href="#signup" className="btn-primary w-full text-center block">
+                  <Link href="/signin" className="btn-primary w-full text-center block">
                     Get Early Access
                   </Link>
                 </div>
@@ -238,37 +242,6 @@ export default function Home() {
             <h3 className="text-lg font-bold text-primary mb-2">When does the $9/mo price end?</h3>
             <p className="text-secondary">After 3 months from launch. Then $19/mo or stay on the free tier.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Sign Up CTA */}
-      <section id="signup" className="py-16 bg-primary text-white">
-        <div className="section text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Ready to save time and money?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join the waitlist. Get early access. Be among the first to try Milk Manager.
-          </p>
-          <form className="max-w-md mx-auto" action="#" method="POST">
-            <div className="flex gap-4">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 px-4 py-3 rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-accent"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-accent hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-              >
-                Join Waitlist
-              </button>
-            </div>
-            <p className="text-sm text-gray-400 mt-4">
-              No spam. Unsubscribe anytime.
-            </p>
-          </form>
         </div>
       </section>
 
