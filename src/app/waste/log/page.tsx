@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/Navbar'
 
@@ -18,6 +17,18 @@ interface Milk {
   type: string
   quantity: number
   unit: string
+  cost_per_unit: number
+}
+
+interface WasteEntry {
+  id: string
+  milk_id: string
+  milk_name: string
+  amount: number
+  unit: string
+  reason: string
+  cost: number
+  created_at: string
 }
 
 export default function WasteLogPage() {
@@ -25,18 +36,49 @@ export default function WasteLogPage() {
   const [selectedMilk, setSelectedMilk] = useState('')
   const [amount, setAmount] = useState('')
   const [reason, setReason] = useState('expired')
+  const [milks, setMilks] = useState<Milk[]>([])
+  const [wasteLogs, setWasteLogs] = useState<WasteEntry[]>([])
 
-  const [milks] = useState<Milk[]>([
-    { id: '1', name: 'Whole Milk', type: 'dairy', quantity: 5, unit: 'liters' },
-    { id: '2', name: 'Barista Oat', type: 'oat', quantity: 3, unit: 'cartons' },
-  ])
+  useEffect(() => {
+    // Load milks
+    const savedMilks = localStorage.getItem('milks')
+    if (savedMilks) {
+      setMilks(JSON.parse(savedMilks))
+    }
+
+    // Load waste logs
+    const savedWaste = localStorage.getItem('wasteLogs')
+    if (savedWaste) {
+      setWasteLogs(JSON.parse(savedWaste))
+    }
+  }, [])
 
   const selectedMilkData = milks.find(m => m.id === selectedMilk)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Save to Supabase
-    console.log({ selectedMilk, amount, reason })
+    
+    if (!selectedMilkData) return
+
+    const wasteAmount = parseFloat(amount)
+    if (isNaN(wasteAmount) || wasteAmount <= 0) return
+
+    // Create waste entry
+    const entry: WasteEntry = {
+      id: Date.now().toString(),
+      milk_id: selectedMilk,
+      milk_name: selectedMilkData.name,
+      amount: wasteAmount,
+      unit: selectedMilkData.unit,
+      reason,
+      cost: wasteAmount * selectedMilkData.cost_per_unit,
+      created_at: new Date().toISOString(),
+    }
+
+    // Save to localStorage
+    const existing = JSON.parse(localStorage.getItem('wasteLogs') || '[]')
+    localStorage.setItem('wasteLogs', JSON.stringify([...existing, entry]))
+
     router.push('/waste')
   }
 
@@ -44,10 +86,14 @@ export default function WasteLogPage() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <main className="max-w-2xl mx-auto px-4 py-8">
+      <main className="max-w-2xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link href="/waste" className="text-sm text-gray-500 hover:text-gray-900">
+          <button
+            onClick={() => router.push('/waste')}
+            className="text-sm text-gray-500 hover:text-gray-900"
+          >
             ← Back to Waste Log
-          </Link>
+          </button>
           <h1 className="text-2xl font-bold text-gray-900 mt-2">Log Waste</h1>
         </div>
 
@@ -83,9 +129,12 @@ export default function WasteLogPage() {
             </label>
             <select
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
               value={selectedMilk}
-              onChange={e => setSelectedMilk(e.target.value)}
+              onChange={e => {
+                setSelectedMilk(e.target.value)
+                setAmount('')
+              }}
             >
               <option value="">Select a milk...</option>
               {milks.map(m => (
@@ -94,6 +143,11 @@ export default function WasteLogPage() {
                 </option>
               ))}
             </select>
+            {milks.length === 0 && (
+              <p className="text-sm text-amber-600 mt-2">
+                No milks in inventory. <Link href="/milks/add" className="underline">Add milk first.</Link>
+              </p>
+            )}
           </div>
 
           {/* Amount */}
@@ -109,7 +163,7 @@ export default function WasteLogPage() {
                   min="0"
                   max={selectedMilkData.quantity}
                   step="0.01"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg"
                   placeholder="0"
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
@@ -123,17 +177,30 @@ export default function WasteLogPage() {
                 </button>
               </div>
               <p className="text-sm text-gray-500 mt-2">
-                Available: {selectedMilkData.quantity} {selectedMilkData.unit}
+                Available: {selectedMilkData.quantity} {selectedMilkData.unit} (${selectedMilkData.cost_per_unit}/{selectedMilkData.unit.replace('s', '').slice(0, -1)})
               </p>
+              {amount && (
+                <p className="text-sm text-red-600 mt-2">
+                  Waste cost: ${(parseFloat(amount) * selectedMilkData.cost_per_unit).toFixed(2)}
+                </p>
+              )}
             </div>
           )}
 
           {/* Submit */}
           <div className="flex gap-4">
-            <Link href="/waste" className="btn-secondary flex-1 text-center">
+            <button
+              type="button"
+              onClick={() => router.push('/waste')}
+              className="btn-secondary flex-1"
+            >
               Cancel
-            </Link>
-            <button type="submit" className="btn-primary flex-1">
+            </button>
+            <button
+              type="submit"
+              disabled={!selectedMilk || !amount}
+              className="btn-primary flex-1 disabled:opacity-50"
+            >
               Log Waste
             </button>
           </div>

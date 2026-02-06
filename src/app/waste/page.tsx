@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Navbar } from '@/components/Navbar'
 
@@ -15,28 +15,24 @@ interface WasteEntry {
 }
 
 export default function WastePage() {
-  const [entries] = useState<WasteEntry[]>([
-    {
-      id: '1',
-      milk_name: 'Whole Milk',
-      amount: 1,
-      unit: 'liters',
-      reason: 'expired',
-      cost: 2.5,
-      created_at: '2026-02-05T10:30:00Z',
-    },
-    {
-      id: '2',
-      milk_name: 'Oat Milk',
-      amount: 0.5,
-      unit: 'cartons',
-      reason: 'spilled',
-      cost: 2.0,
-      created_at: '2026-02-04T14:15:00Z',
-    },
-  ])
+  const [entries, setEntries] = useState<WasteEntry[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('wasteLogs')
+    if (saved) {
+      setEntries(JSON.parse(saved))
+    }
+    setLoading(false)
+  }, [])
 
   const totalCost = entries.reduce((sum, e) => sum + e.cost, 0)
+
+  // Get this week's entries
+  const weekAgo = new Date()
+  weekAgo.setDate(weekAgo.getDate() - 7)
+  const thisWeek = entries.filter(e => new Date(e.created_at) >= weekAgo)
+  const thisWeekCost = thisWeek.reduce((sum, e) => sum + e.cost, 0)
 
   const formatDate = (date: string) => {
     const d = new Date(date)
@@ -58,9 +54,24 @@ export default function WastePage() {
     return icons[reason] || '❓'
   }
 
+  const deleteEntry = (id: string) => {
+    const updated = entries.filter(e => e.id !== id)
+    setEntries(updated)
+    localStorage.setItem('wasteLogs', JSON.stringify(updated))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
+      <main className="max-w-4xl mx-auto px-4 py-8">
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Waste Log</h1>
@@ -72,16 +83,30 @@ export default function WastePage() {
         {/* Summary */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Total wasted this week</span>
+            <span className="text-gray-500">This week</span>
+            <span className="font-medium">${thisWeekCost.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between text-sm mt-2">
+            <span className="text-gray-500">Total logged</span>
             <span className="font-medium">${totalCost.toFixed(2)}</span>
           </div>
         </div>
 
-        {/* Waste List */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          {entries.length > 0 ? (
+        {/* Empty State */}
+        {entries.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
+            <p className="text-gray-500 mb-4">No waste logged yet 🎉</p>
+            <Link href="/waste/log" className="btn-primary">
+              Log First Waste
+            </Link>
+          </div>
+        ) : (
+          /* Waste List */
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <ul className="divide-y divide-gray-200">
-              {entries.map(entry => (
+              {entries
+                .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                .map(entry => (
                 <li key={entry.id} className="p-4 hover:bg-gray-50">
                   <div className="flex justify-between items-start">
                     <div className="flex items-start gap-3">
@@ -93,23 +118,24 @@ export default function WastePage() {
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-medium text-red-600">-${entry.cost.toFixed(2)}</p>
-                      <p className="text-xs text-gray-400">{formatDate(entry.created_at)}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="text-right">
+                        <p className="font-medium text-red-600">-${entry.cost.toFixed(2)}</p>
+                        <p className="text-xs text-gray-400">{formatDate(entry.created_at)}</p>
+                      </div>
+                      <button
+                        onClick={() => deleteEntry(entry.id)}
+                        className="text-gray-400 hover:text-red-500"
+                      >
+                        ×
+                      </button>
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
-          ) : (
-            <div className="p-8 text-center">
-              <p className="text-gray-500 mb-4">No waste logged yet 🎉</p>
-              <Link href="/waste/log" className="btn-primary">
-                Log First Waste
-              </Link>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </main>
     </div>
   )
