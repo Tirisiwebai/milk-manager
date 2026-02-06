@@ -2,11 +2,34 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CameraIcon, ChartIcon, BellIcon } from '@/components/Icons'
+import { MilkBottleIcon, ChartIcon, BellIcon } from '@/components/Icons'
+
+interface Milk {
+  id: string
+  name: string
+  brand: string
+  type: string
+  quantity: number
+  unit: string
+  expiry_date: string
+  cost_per_unit: number
+  supplier: string
+  created_at: string
+}
+
+interface WasteLog {
+  id: string
+  milk_id: string
+  milk_name: string
+  quantity: number
+  cost: number
+  reason: string
+  created_at: string
+}
 
 export default function Dashboard() {
-  const [milks, setMilks] = useState<any[]>([])
-  const [wasteLogs, setWasteLogs] = useState<any[]>([])
+  const [milks, setMilks] = useState<Milk[]>([])
+  const [wasteLogs, setWasteLogs] = useState<WasteLog[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -24,7 +47,7 @@ export default function Dashboard() {
   }
 
   const totalMilks = milks.length
-  const expiringSoon = milks.filter(m => getDaysUntilExpiry(m.expiry_date) <= 3).length
+  const expiringCount = milks.filter(m => getDaysUntilExpiry(m.expiry_date) <= 3 && getDaysUntilExpiry(m.expiry_date) >= 0).length
   
   const weekAgo = new Date()
   weekAgo.setDate(weekAgo.getDate() - 7)
@@ -54,7 +77,7 @@ export default function Dashboard() {
               <Link href="/dashboard" className="text-sm font-medium text-gray-900">Dashboard</Link>
               <Link href="/milks" className="text-sm text-gray-500 hover:text-gray-900">Milk</Link>
               <Link href="/waste" className="text-sm text-gray-500 hover:text-gray-900">Waste</Link>
-              <Link href="/analytics" className="text-sm text-gray-500 hover:text-gray-900">Analytics</Link>
+              <Link href="/analytics" className="text-sm text-gray-500 hover:text-gray-900">Costs</Link>
             </div>
           </div>
         </div>
@@ -63,12 +86,12 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold text-gray-900 mb-8">Dashboard</h1>
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="p-4 bg-white rounded-xl border border-gray-200">
-            <p className="text-sm text-gray-500 mb-1">Total Milks</p>
+            <p className="text-sm text-gray-500 mb-1">Total Items</p>
             <p className="text-2xl font-bold text-gray-900">{totalMilks}</p>
           </div>
           <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-            <p className="text-sm text-gray-500 mb-1">Expiring Soon</p>
-            <p className="text-2xl font-bold text-gray-900">{expiringSoon}</p>
+            <p className="text-sm text-gray-500 mb-1">Expiring This Week</p>
+            <p className="text-2xl font-bold text-gray-900">{expiringCount}</p>
           </div>
           <div className="p-4 bg-white rounded-xl border border-gray-200">
             <p className="text-sm text-gray-500 mb-1">Weekly Waste</p>
@@ -78,7 +101,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-2 gap-4 mb-8">
           <Link href="/milks/add" className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300">
             <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-              <CameraIcon className="w-5 h-5 text-gray-700" />
+              <MilkBottleIcon className="w-5 h-5 text-gray-700" />
             </div>
             <span className="font-medium text-gray-900">Add Milk</span>
           </Link>
@@ -92,7 +115,7 @@ export default function Dashboard() {
         <section className="bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-center gap-2 mb-4">
             <BellIcon className="w-5 h-5 text-amber-500" />
-            <h2 className="text-lg font-semibold text-gray-900">Expiring Soon</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Expiring This Week</h2>
           </div>
           {soonMilks.length > 0 ? (
             <ul className="space-y-3">
@@ -107,7 +130,7 @@ export default function Dashboard() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500">{totalMilks === 0 ? 'Add milk to see inventory' : 'No milks expiring soon 🎉'}</p>
+            <p className="text-gray-500">{totalMilks === 0 ? 'Add milk to see inventory' : 'Nothing expiring this week 🎉'}</p>
           )}
         </section>
       </main>

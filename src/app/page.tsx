@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { CameraIcon, BellIcon, ChartIcon, CurrencyIcon, SparklesIcon, CubeIcon, ArrowRightIcon, CheckIcon, MenuIcon } from '@/components/Icons'
+import { MilkBottleIcon, CalculatorIcon, ChartIcon, BellIcon, ArrowRightIcon, CheckIcon, MenuIcon } from '@/components/Icons'
 
 export default function Home() {
   return (
@@ -32,10 +32,10 @@ export default function Home() {
       <section className="py-20 md:py-28 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            One tap. Three benefits.
+            Know your costs. Cut your waste.
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Save time. Save money. Reduce waste. The simplest way to track milk for your cafe.
+            The simplest way for cafes to track milk costs. Know exactly what each drink costs you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link href="/signin" className="inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-3.5 rounded-lg text-base font-medium hover:bg-gray-800 transition-colors">
@@ -57,26 +57,26 @@ export default function Home() {
             {/* Step 1 */}
             <div className="text-center">
               <div className="w-20 h-20 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center mx-auto mb-6">
-                <CameraIcon className="w-10 h-10 text-gray-700" />
+                <MilkBottleIcon className="w-10 h-10 text-gray-700" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Scan</h3>
-              <p className="text-gray-600 leading-relaxed">Open the app. Scan your milk. Done. Expiration dates detected automatically.</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Add Milk</h3>
+              <p className="text-gray-600 leading-relaxed">Enter your milk. Add cost. Set expiry. Done in seconds.</p>
             </div>
             {/* Step 2 */}
             <div className="text-center">
               <div className="w-20 h-20 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center mx-auto mb-6">
                 <ChartIcon className="w-10 h-10 text-gray-700" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Track</h3>
-              <p className="text-gray-600 leading-relaxed">Waste, usage, costs — all in one place. See your data in seconds, not spreadsheets.</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Track Waste</h3>
+              <p className="text-gray-600 leading-relaxed">Log wasted milk. See patterns over time. Find the problems.</p>
             </div>
             {/* Step 3 */}
             <div className="text-center">
               <div className="w-20 h-20 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center mx-auto mb-6">
-                <CurrencyIcon className="w-10 h-10 text-gray-700" />
+                <CalculatorIcon className="w-10 h-10 text-gray-700" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Save</h3>
-              <p className="text-gray-600 leading-relaxed">AI predicts waste. Alerts when milks expire. Know your real costs per drink.</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Know Costs</h3>
+              <p className="text-gray-600 leading-relaxed">See exactly what each drink costs. Price accordingly.</p>
             </div>
           </div>
         </div>
@@ -91,34 +91,34 @@ export default function Home() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="p-6 bg-gray-50 rounded-xl">
-              <CameraIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Photo Scanning</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Snap a photo. Expiration dates detected automatically.</p>
+              <MilkBottleIcon className="w-8 h-8 text-gray-700 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Track Inventory</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Track every type of milk. Dairy and plant-based.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
               <BellIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Smart Alerts</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Get notified before milk expires. No more waste.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Expiry Alerts</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Know what expires before it happens.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
               <ChartIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Waste Tracking</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Log waste in one tap. See patterns over time.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Waste Logging</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Log waste in one tap. See trends over time.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
-              <CurrencyIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Cost Calculator</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Know your real costs per drink. Auto-calculated.</p>
+              <CalculatorIcon className="w-8 h-8 text-gray-700 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Cost Analysis</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">See exactly what each drink costs you.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
-              <SparklesIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Predictions</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Predict waste before it happens. Powered by AI.</p>
+              <ChartIcon className="w-8 h-8 text-gray-700 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Waste Reports</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Weekly breakdown. Find the problems.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
-              <CubeIcon className="w-8 h-8 text-gray-700 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Supplier Comparison</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Compare prices across suppliers. Order smarter.</p>
+              <CalculatorIcon className="w-8 h-8 text-gray-700 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Supplier Prices</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Track what you pay per supplier.</p>
             </div>
           </div>
         </div>
@@ -144,11 +144,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3 text-sm">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">Expiration alerts</span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm">
-                    <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">Photo scanning</span>
+                    <span className="text-gray-600">Expiry alerts</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -156,7 +152,11 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3 text-sm">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">Manual entry</span>
+                    <span className="text-gray-600">Cost analysis</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm">
+                    <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-600">Weekly reports</span>
                   </li>
                 </ul>
                 <Link href="/signin" className="block w-full py-3 px-4 text-center border border-gray-300 text-gray-900 rounded-lg font-medium hover:bg-gray-50 transition-colors">
@@ -181,15 +181,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3 text-sm">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">AI predictions</span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm">
-                    <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">Cost calculator</span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm">
-                    <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-600">Supplier comparison</span>
+                    <span className="text-gray-600">Supplier prices</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm">
                     <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -226,15 +218,15 @@ export default function Home() {
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I use it on my phone?</h3>
-              <p className="text-gray-600">Yes. Works on phone, tablet, and desktop. Install as PWA for offline use.</p>
+              <p className="text-gray-600">Yes. Works on phone, tablet, and desktop.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">How does the photo scan work?</h3>
-              <p className="text-gray-600">Open app → Point camera → Tap. Expiration dates detected automatically using OCR.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">How does cost analysis work?</h3>
+              <p className="text-gray-600">Enter your milk cost. Enter your typical pour size. See exactly what each drink costs.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What about my data?</h3>
-              <p className="text-gray-600">Your data is yours. No selling. No spam. GDPR compliant.</p>
+              <p className="text-gray-600">Your data is yours. No selling. No spam.</p>
             </div>
             <div className="p-6 bg-gray-50 rounded-xl">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">When does the $9/mo price end?</h3>
@@ -247,7 +239,7 @@ export default function Home() {
       {/* CTA */}
       <section className="py-20 bg-gray-900 px-6">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to save time and money?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Know what your coffee costs.</h2>
           <p className="text-xl text-gray-400 mb-8">Join the waitlist. Get early access.</p>
           <form className="max-w-md mx-auto" action="#" method="POST">
             <div className="flex gap-3">

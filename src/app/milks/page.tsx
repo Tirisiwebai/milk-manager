@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CameraIcon, CheckIcon } from '@/components/Icons'
+import { MilkBottleIcon, CheckIcon, XMarkIcon } from '@/components/Icons'
 
 interface Milk {
   id: string
@@ -70,7 +70,7 @@ export default function MilksPage() {
               <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900">Dashboard</Link>
               <Link href="/milks" className="text-sm font-medium text-gray-900">Milk</Link>
               <Link href="/waste" className="text-sm text-gray-500 hover:text-gray-900">Waste</Link>
-              <Link href="/analytics" className="text-sm text-gray-500 hover:text-gray-900">Analytics</Link>
+              <Link href="/analytics" className="text-sm text-gray-500 hover:text-gray-900">Costs</Link>
             </div>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function MilksPage() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Milk Inventory</h1>
           <Link href="/milks/add" className="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800">
-            <CameraIcon className="w-4 h-4" /> Add Milk
+            <MilkBottleIcon className="w-4 h-4" /> Add Milk
           </Link>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6">
@@ -94,9 +94,12 @@ export default function MilksPage() {
         </div>
         {milks.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MilkBottleIcon className="w-8 h-8 text-gray-400" />
+            </div>
             <p className="text-gray-500 mb-4">No milk in inventory yet</p>
             <Link href="/milks/add" className="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800">
-              <CameraIcon className="w-4 h-4" /> Add Your First Milk
+              <MilkBottleIcon className="w-4 h-4" /> Add Your First Milk
             </Link>
           </div>
         ) : (
