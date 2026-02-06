@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Navbar } from '@/components/Navbar'
 
 interface WasteEntry {
   id: string
@@ -28,7 +27,6 @@ export default function WastePage() {
 
   const totalCost = entries.reduce((sum, e) => sum + e.cost, 0)
 
-  // Get this week's entries
   const weekAgo = new Date()
   weekAgo.setDate(weekAgo.getDate() - 7)
   const thisWeek = entries.filter(e => new Date(e.created_at) >= weekAgo)
@@ -61,26 +59,29 @@ export default function WastePage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
-      </div>
-    )
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><p className="text-gray-500">Loading...</p></div>
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <nav className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="flex justify-between items-center h-14">
+            <Link href="/dashboard" className="font-semibold text-gray-900">Milk Manager</Link>
+            <div className="flex gap-6">
+              <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900">Dashboard</Link>
+              <Link href="/milks" className="text-sm text-gray-500 hover:text-gray-900">Milk</Link>
+              <Link href="/waste" className="text-sm font-medium text-gray-900">Waste</Link>
+              <Link href="/analytics" className="text-sm text-gray-500 hover:text-gray-900">Analytics</Link>
+            </div>
+          </div>
+        </div>
+      </nav>
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Waste Log</h1>
-          <Link href="/waste/log" className="btn-primary">
-            + Log Waste
-          </Link>
+          <Link href="/waste/log" className="btn-primary">+ Log Waste</Link>
         </div>
-
-        {/* Summary */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">This week</span>
@@ -91,48 +92,36 @@ export default function WastePage() {
             <span className="font-medium">${totalCost.toFixed(2)}</span>
           </div>
         </div>
-
-        {/* Empty State */}
         {entries.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
             <p className="text-gray-500 mb-4">No waste logged yet 🎉</p>
-            <Link href="/waste/log" className="btn-primary">
-              Log First Waste
-            </Link>
+            <Link href="/waste/log" className="btn-primary">Log First Waste</Link>
           </div>
         ) : (
-          /* Waste List */
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <ul className="divide-y divide-gray-200">
               {entries
                 .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
                 .map(entry => (
-                <li key={entry.id} className="p-4 hover:bg-gray-50">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-start gap-3">
-                      <span className="text-xl">{getReasonIcon(entry.reason)}</span>
-                      <div>
-                        <p className="font-medium text-gray-900">{entry.milk_name}</p>
-                        <p className="text-sm text-gray-500">
-                          {entry.amount} {entry.unit} • {entry.reason}
-                        </p>
+                  <li key={entry.id} className="p-4 hover:bg-gray-50">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-start gap-3">
+                        <span className="text-xl">{getReasonIcon(entry.reason)}</span>
+                        <div>
+                          <p className="font-medium text-gray-900">{entry.milk_name}</p>
+                          <p className="text-sm text-gray-500">{entry.amount} {entry.unit} • {entry.reason}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="text-right">
+                          <p className="font-medium text-red-600">-${entry.cost.toFixed(2)}</p>
+                          <p className="text-xs text-gray-400">{formatDate(entry.created_at)}</p>
+                        </div>
+                        <button onClick={() => deleteEntry(entry.id)} className="text-gray-400 hover:text-red-500">×</button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <p className="font-medium text-red-600">-${entry.cost.toFixed(2)}</p>
-                        <p className="text-xs text-gray-400">{formatDate(entry.created_at)}</p>
-                      </div>
-                      <button
-                        onClick={() => deleteEntry(entry.id)}
-                        className="text-gray-400 hover:text-red-500"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
             </ul>
           </div>
         )}
