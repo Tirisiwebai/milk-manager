@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CameraIcon, CheckIcon, XMarkIcon } from '@/components/Icons'
+import { CameraIcon, CheckIcon } from '@/components/Icons'
 
 interface Milk {
   id: string
