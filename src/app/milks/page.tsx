@@ -2,9 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { CameraIcon, CheckIcon, XMarkIcon } from '@/components/Icons'
+
+interface Milk {
+  id: string
+  name: string
+  brand: string
+  type: string
+  quantity: number
+  unit: string
+  expiry_date: string
+  cost_per_unit: number
+  supplier: string
+  created_at: string
+}
 
 export default function MilksPage() {
-  const [milks, setMilks] = useState<any[]>([])
+  const [milks, setMilks] = useState<Milk[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -48,7 +62,7 @@ export default function MilksPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex justify-between items-center h-14">
             <Link href="/dashboard" className="font-semibold text-gray-900">Milk Manager</Link>
@@ -64,7 +78,9 @@ export default function MilksPage() {
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Milk Inventory</h1>
-          <Link href="/milks/add" className="btn-primary">+ Add Milk</Link>
+          <Link href="/milks/add" className="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800">
+            <CameraIcon className="w-4 h-4" /> Add Milk
+          </Link>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6">
           <div className="flex justify-between text-sm">
@@ -79,7 +95,9 @@ export default function MilksPage() {
         {milks.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
             <p className="text-gray-500 mb-4">No milk in inventory yet</p>
-            <Link href="/milks/add" className="btn-primary">Add Your First Milk</Link>
+            <Link href="/milks/add" className="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800">
+              <CameraIcon className="w-4 h-4" /> Add Your First Milk
+            </Link>
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -94,7 +112,7 @@ export default function MilksPage() {
                   <th className="w-10"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-100">
                 {milks.map(milk => {
                   const status = getExpiryStatus(milk.expiry_date)
                   const days = getDaysUntilExpiry(milk.expiry_date)
@@ -106,7 +124,7 @@ export default function MilksPage() {
                         <p className="text-sm text-gray-500">{milk.brand}</p>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 capitalize">{milk.type}</span>
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 capitalize">{milk.type}</span>
                       </td>
                       <td className="py-3 px-4 text-gray-900">{milk.quantity} {milk.unit}</td>
                       <td className="py-3 px-4">
@@ -114,7 +132,7 @@ export default function MilksPage() {
                       </td>
                       <td className="py-3 px-4 text-right text-gray-900">${(milk.quantity * milk.cost_per_unit).toFixed(2)}</td>
                       <td className="py-3 px-4">
-                        <button onClick={() => deleteMilk(milk.id)} className="text-red-500 hover:text-red-700 text-sm">×</button>
+                        <button onClick={() => deleteMilk(milk.id)} className="text-gray-400 hover:text-red-500 text-lg">×</button>
                       </td>
                     </tr>
                   )
